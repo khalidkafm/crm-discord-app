@@ -41,7 +41,10 @@ mongodb.connect( connectionString, {connectTimeoutMS:2000})
 export const discordAuth = discord(auth, {
 	clientId: process.env.DISCORD_CLIENT_ID ?? "",
 	clientSecret: process.env.DISCORD_CLIENT_SECRET ?? "",
-	redirectUri:"http://localhost:3000/login/discord/callback" //discord redirect URI goes here
+	redirectUri:
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3000/login/discord/callback' // LOCAL DEV discord redirect URI goes here 
+      : `${process.env.PROD_URI}/login/discord/callback`, // PROD discord redirect URI goes here 
 });
  
 export type Auth = typeof auth; 
