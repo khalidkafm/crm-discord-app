@@ -15,7 +15,7 @@ const Page = async () => {
 	if (!session) redirect("/login");
 
 	// Fetch messages from MongoDB
-	let messages;
+	let messages: any;
 	
 	await Message.find().then((data : any) => { messages = data })
 
