@@ -1,6 +1,6 @@
 import mongodb from "mongoose";
 
-const Message = mongodb.models.Message || mongodb.model("Message",
+export const Message = mongodb.models.Message || mongodb.model("Message",
 new mongodb.Schema(
 	{
 		channelId: {
@@ -33,5 +33,3 @@ new mongodb.Schema(
 		}		
 	}
 ));
-
-export default Message;

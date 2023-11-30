@@ -2,7 +2,7 @@
 import { auth } from "@/auth/lucia";
 import * as context from "next/headers";
 import { redirect } from "next/navigation";
-import Message from '../models/message';
+import { Message } from '../models/message';
 
 import Form from "@/components/form"; // expect error - see next section
 
