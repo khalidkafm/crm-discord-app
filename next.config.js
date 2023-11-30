@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-require ('./models/connection.ts')
+require ('./models/connection')
 
 const nextConfig = {
   env: {
