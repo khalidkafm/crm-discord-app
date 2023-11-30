@@ -34,4 +34,4 @@ new mongodb.Schema(
 	}
 ));
 
-module.exports = Message;
+export default Message;
