@@ -2,6 +2,7 @@
 import { auth } from "@/auth/lucia";
 import * as context from "next/headers";
 import { redirect } from "next/navigation";
+import Message from '../models/message';
 
 import Form from "@/components/form"; // expect error - see next section
 
@@ -12,6 +13,12 @@ const Page = async () => {
 	const authRequest = auth.handleRequest("GET", context);
 	const session = await authRequest.validate();
 	if (!session) redirect("/login");
+
+	// Fetch messages from MongoDB
+	let messages;
+	
+	await Message.find().then((data : any) => { messages = data })
+
 	return (
 		<>
 			<h1>Profile</h1>
@@ -20,6 +27,7 @@ const Page = async () => {
 			<Form action="/api/logout">
 				<input type="submit" value="Sign out" />
 			</Form>
+			<p>Messages: { messages.toString() }</p>
 		</>
 	);
 };

@@ -2,7 +2,6 @@
 import { lucia } from "lucia";
 import { nextjs_future } from "lucia/middleware";
 import { mongoose } from "@lucia-auth/adapter-mongoose";
-import mongodb from "mongoose"
 
 import { discord } from "@lucia-auth/oauth/providers";
 
@@ -11,6 +10,8 @@ import "lucia/polyfill/node"; // required for Node versions before Node.js v20
 import { User } from '../models/user';
 import { Key } from '../models/key';
 import { Session } from '../models/session';
+
+console.log('auth/lucia.js is executed');
 
 // expect error (see next section)
 export const auth = lucia({
@@ -30,13 +31,6 @@ export const auth = lucia({
 		};
 	}
 });
-
-const connectionString = 'mongodb+srv://admin:r0sOemPyVSWVmPSF@lacapsule.hssychg.mongodb.net/crmdiscord'
-
-// handle connection
-mongodb.connect( connectionString, {connectTimeoutMS:2000})
-    .then(() => console.log('crmdiscord db connected'))
-    .catch(error => console.log(error))
 
 export const discordAuth = discord(auth, {
 	clientId: process.env.DISCORD_CLIENT_ID ?? "",

@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
 
-module.exports =  nextConfig
+require ('./models/connection.ts')
+
+const nextConfig = {}
+  
+  module.exports = nextConfig;
+  
