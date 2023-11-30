@@ -1,4 +1,4 @@
-const mongodb = require("mongoose");
+import mongodb from "mongoose";
 
 const Message = mongodb.models.Message || mongodb.model("Message",
 new mongodb.Schema(
