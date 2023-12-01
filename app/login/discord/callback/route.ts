@@ -37,7 +37,8 @@ export const GET = async (request: NextRequest) => {
 		const user = await getUser();
 		const session = await auth.createSession({
 			userId: user.userId,
-			attributes: {}
+			attributes: {
+			}
 		});
 		const authRequest = auth.handleRequest(request.method, {
 			cookies,

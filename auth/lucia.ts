@@ -7,6 +7,8 @@ import { discord } from "@lucia-auth/oauth/providers";
 
 import "lucia/polyfill/node"; // required for Node versions before Node.js v20
 
+import "../models/connection"; // CONNECTION IS HERE
+
 import { User } from '../models/user';
 import { Key } from '../models/key';
 import { Session } from '../models/session';
@@ -27,7 +29,7 @@ export const auth = lucia({
 	},
 	getUserAttributes: (data) => {
 		return {
-			githubUsername: data.username
+			discordUser: data.username
 		};
 	}
 });

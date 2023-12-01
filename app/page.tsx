@@ -3,6 +3,7 @@ import { auth } from "@/auth/lucia";
 import * as context from "next/headers";
 import { redirect } from "next/navigation";
 import { Message } from '../models/message';
+import { User } from '../models/user'
 
 import Form from "@/components/form"; // expect error - see next section
 
@@ -16,14 +17,15 @@ const Page = async () => {
 
 	// Fetch messages from MongoDB
 	let messages: any;
-	
+
+	const { username } = await User.findOne({ _id: session.user.userId}).exec()
 	await Message.find().then((data : any) => { messages = data })
 
 	return (
 		<>
 			<h1>Profile</h1>
 			<p>User id: {session.user.userId}</p>
-			<p>Username: {session.user.username}</p>
+			<p>Username: { username }</p>
 			<Form action="/api/logout">
 				<input type="submit" value="Sign out" />
 			</Form>
