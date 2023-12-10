@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { Message } from '../models/message';
 import { User } from '../models/user'
 
-import Form from "@/components/form"; // expect error - see next section
+import Form from "@/components/logout-form"; // expect error - see next section
 
 const Page = async () => {
 	// Same code as app/login/page.tsx

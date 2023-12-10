@@ -20,7 +20,7 @@ export const GET = async (request: NextRequest) => {
 	try {
         // Checking if the user already exists
         // Documentation here --> https://lucia-auth.com/guidebook/github-oauth/nextjs-app/#:~:text=Authenticate%20user%20with%20Lucia
-		const { getExistingUser, discordUser, createUser } =
+		const { getExistingUser, discordUser, createUser, discordTokens } =
 			await discordAuth.validateCallback(code);
 
 		const getUser = async () => {
@@ -35,6 +35,38 @@ export const GET = async (request: NextRequest) => {
 		};
 
 		const user = await getUser();
+
+		console.log('accessToken : ',discordTokens.accessToken)
+
+	// START MANAGING GUILDS
+	/*
+		const getUserGuilds = async (token: string) => {
+			const requestBody = {
+				accessToken: token,
+			}
+			const response = await fetch('http://localhost:4000/users/guilds',{
+				method: 'POST',
+				headers: {'Content-Type':'application/json'},
+				body: JSON.stringify(requestBody)
+			});
+
+			const jsonResponse = await response.json();
+
+			if(jsonResponse.result){
+				return jsonResponse.userGuilds
+			} else {
+				console.log(jsonResponse.message)
+			}
+			
+		}
+
+		const userGuilds = await getUserGuilds(discordTokens.accessToken);
+		console.log(userGuilds)
+	*/
+	// END MANAGING GUILDS
+
+
+
 		const session = await auth.createSession({
 			userId: user.userId,
 			attributes: {

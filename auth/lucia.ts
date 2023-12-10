@@ -41,6 +41,19 @@ export const discordAuth = discord(auth, {
     process.env.NODE_ENV === 'development'
       ? 'http://localhost:3000/login/discord/callback' // LOCAL DEV discord redirect URI goes here 
       : `${process.env.PROD_URI}/login/discord/callback`, // PROD discord redirect URI goes here 
+	scope: ['guilds'],
 });
+
+export const discordBotAuth = discord(auth, {
+	clientId: process.env.DISCORD_CLIENT_ID ?? "",
+	clientSecret: process.env.DISCORD_CLIENT_SECRET ?? "",
+	redirectUri:
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:3000/login/discord/callback' // LOCAL DEV discord redirect URI goes here 
+      : `${process.env.PROD_URI}/login/discord/callback`, // PROD discord redirect URI goes here 
+	  scope: ['bot'],
+});
+
+
  
 export type Auth = typeof auth; 
