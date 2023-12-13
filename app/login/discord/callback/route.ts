@@ -28,7 +28,8 @@ export const GET = async (request: NextRequest) => {
 			if (existingUser) return existingUser;
 			const user = await createUser({
 				attributes: {
-					username: discordUser.username
+					username: discordUser.username,
+					discordId: discordUser.id,
 				}
 			});
 			return user;

@@ -10,8 +10,13 @@ new mongodb.Schema(
 		username: {
 		  type: String,  // Vous pouvez ajuster le type selon vos besoins
 		  required: false,
-		  unique: true  // Si vous voulez que les usernames soient uniques
+		  unique: false  // Si vous voulez que les usernames soient uniques
 		},
+		discordId: {
+			type: String,  // Vous pouvez ajuster le type selon vos besoins
+			required: false,
+			unique: false  // Si vous voulez que les discordId soient uniques
+		  },
 		// Ajoutez d'autres champs de votre schéma ici...
 	} as const,
 	{ _id: false },
