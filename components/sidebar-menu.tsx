@@ -20,6 +20,14 @@ import { InviteCard } from "./inviteCards"
 import Form from "@/components/logout-form";
 import CampaignId from "@/app/[guildId]/campaign/page";
 
+export interface Workspace {
+  _id: string;
+  guild_name: string;
+  name: string;
+  username: string;
+  // Add other properties as needed
+}
+
 // const invitesData = [
 //   { name: "abceeed", _id: "55555555555555" },
 //   { name: "defsasd", _id: "44444444444444" },
@@ -59,7 +67,7 @@ export default function SideBarMenu({ guildId }: { guildId: string }) {
         if (!invitesApiData.result) {
           console.log("Result is false check invites API");
         } else {
-          const invites = invitesApiData.invites.map((invite) => ({...invite,
+          const invites = invitesApiData.invites.map((invite : any) => ({...invite,
             handleClick: () => router.push(`/${guildId}/campaign/${invite._id}`),
           }));
           setInvitesData(invites);
