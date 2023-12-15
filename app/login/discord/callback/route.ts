@@ -81,7 +81,7 @@ export const GET = async (request: NextRequest) => {
 		return new Response(null, {
 			status: 302,
 			headers: {
-				Location: "/" // redirect to profile page
+				Location: "/workspaces" // redirect to profile page
 			}
 		});
 	} catch (e) {
