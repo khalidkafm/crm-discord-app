@@ -27,9 +27,12 @@ const [invitesData, setInvitesData] = useState<Invite[]>([]);
 
 console.log('guildId in invitlist', guildId)
 
+/// HERE FETCH OF WORKSPACES
+const memberId = "TO CATCH FROM PARAMS OR SESSION LUCIA"
+
 const fetchUrl = process.env.NODE_ENV === 'development'
-? `http://localhost:4000/invites/${guildId}` // LOCAL DEV discord redirect URI goes here 
-: `${process.env.PROD_BOT_URI}/invites/${guildId}` // PROD discord redirect URI goes here 
+? `http://localhost:4000/workspaces/${memberId}` // LOCAL DEV discord redirect URI goes here 
+: `${process.env.PROD_BOT_URI}/workspaces/${memberId}` // PROD discord redirect URI goes here 
 
   useEffect(() => {
     // Fetching invites from the API Invites with Arthur's discordId

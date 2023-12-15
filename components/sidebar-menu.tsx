@@ -310,7 +310,7 @@ export default function SideBarMenu({ guildId }: { guildId: string }) {
                 New
               </Button>
           </div>
-          <InviteList></InviteList>
+          <InviteList guildId={guildId}></InviteList>
           <Accordion
             type="single"
             collapsible
