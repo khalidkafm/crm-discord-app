@@ -17,7 +17,11 @@ let messages: any;
 
 const { username, discordId } = await User.findOne({ _id: session.user.userId}).exec()
 
-let response = await fetch(`http://localhost:4000/users/workspaces/${discordId}`);
+const fetchUrl = process.env.NODE_ENV === 'development'
+? `http://localhost:4000/users/workspaces/${discordId}` // LOCAL DEV discord redirect URI goes here 
+: `${process.env.PROD_URI}/users/workspaces/${discordId}` // PROD discord redirect URI goes here 
+
+let response = await fetch(fetchUrl);
 
 let data: {arraylength: string[], tableau: {guild_id: string}[]} = await response.json();
 
