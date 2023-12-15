@@ -32,7 +32,7 @@ const memberId = "TO CATCH FROM PARAMS OR SESSION LUCIA"
 
 const fetchUrl = process.env.NODE_ENV === 'development'
 ? `http://localhost:4000/workspaces/${memberId}` // LOCAL DEV discord redirect URI goes here 
-: `${process.env.PROD_BOT_URI}/workspaces/${memberId}` // PROD discord redirect URI goes here 
+: `${process.env.NEXT_PUBLIC_PROD_BOT_URI}/workspaces/${memberId}` // PROD discord redirect URI goes here 
 
   useEffect(() => {
     // Fetching invites from the API Invites with Arthur's discordId

@@ -31,7 +31,7 @@ console.log('guildId in invitlist', guildId)
 
     const fetchUrl = process.env.NODE_ENV === 'development'
     ? `http://localhost:4000/invites/${guildId}` // LOCAL DEV discord redirect URI goes here 
-    : `${process.env.PROD_BOT_URI}/invites/${guildId}` // PROD discord redirect URI goes here 
+    : `${process.env.NEXT_PUBLIC_PROD_BOT_URI}/invites/${guildId}` // PROD discord redirect URI goes here 
     // Fetching invites from the API Invites with Arthur's discordId
     fetch(fetchUrl)
       .then((response) => response.json())

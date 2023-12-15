@@ -16,7 +16,7 @@ const { discordId } = await User.findOne({ _id: session.user.userId}).exec()
 
 const fetchUrl = process.env.NODE_ENV === 'development'
 ? `http://localhost:4000/users/workspaces/${discordId}` // LOCAL DEV discord redirect URI goes here 
-: `${process.env.PROD_BOT_URI}/users/workspaces/${discordId}` // PROD discord redirect URI goes here 
+: `${process.env.NEXT_PUBLIC_PROD_BOT_URI}/users/workspaces/${discordId}` // PROD discord redirect URI goes here 
 
 let response = await fetch(fetchUrl);
 
