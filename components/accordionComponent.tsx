@@ -15,6 +15,14 @@ import {
 
 import Form from "@/components/logout-form";
 
+export interface Workspace {
+  _id: string;
+  guild_name: string;
+  name: string;
+  username: string;
+  // Add other properties as needed
+}
+
 
 export default function AccordionTest({ guildId }: { guildId: string }) {
   const router = useRouter();
@@ -29,7 +37,7 @@ export default function AccordionTest({ guildId }: { guildId: string }) {
         if (!workspaceApiData.result) {
           console.log("Result is false, check workspaces API");
         } else {
-          const workspaces = workspaceApiData.tableau.map((workspace) => ({
+          const workspaces = workspaceApiData.tableau.map((workspace : any) => ({
             ...workspace,
             handleClick: () => setSelectedWorkspace(workspace.guild_name),
           }));

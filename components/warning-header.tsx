@@ -8,7 +8,7 @@ export default function WarningHeader() {
       <header style={{ backgroundColor: "#FCEB9A", padding: "1rem" }}>
         
         <p className="ml-2">
-          Invite link tracking started today. Discord doesn't provide history
+          {`Invite link tracking started today. Discord doesn't provide history`}
         </p>
         
       </header>
