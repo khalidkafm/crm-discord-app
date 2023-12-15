@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/accordion";
 
 import { InviteList } from "./inviteList";
-import { AddInvite } from "../components/addNewInvite";
+
 
 import Form from "@/components/logout-form";
 
