@@ -2,8 +2,6 @@ import { auth } from "@/auth/lucia";
 import * as context from "next/headers";
 import { redirect } from "next/navigation";
 
-import WarningHeader from "@/components/warning-header";
-
 const MemberPage = async () => {
     console.log();
 

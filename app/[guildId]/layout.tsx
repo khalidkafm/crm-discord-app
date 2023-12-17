@@ -26,20 +26,20 @@ export default async function GuildId({
   let messages: any;
 
   const { username } = await User.findOne({ _id: session.user.userId }).exec();
+  
   await Message.find().then((data: any) => {
     messages = data;
   });
   return (
     <>
-        <WarningHeader></WarningHeader>
         <div className="flex h-screen">
-        <div className="w-1/4 bg-gray-75 border-r-2 border-solid border-gray-500">
-            <SideBarMenu guildId={params.guildId}></SideBarMenu>
+          <div className="w-1/4 overflow-y-auto">
+              <SideBarMenu guildId={params.guildId}></SideBarMenu>
+          </div>
+          <div className="flex-1 overflow-y-auto">
+              {children}
+          </div>
         </div>
-        <div className="flex-1 p-4 overflow-hidden">
-            {children}
-        </div>
-    </div>
     </>
 
 
