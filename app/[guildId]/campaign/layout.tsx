@@ -14,8 +14,6 @@ export default async function GuildId({
 
   if (!session) redirect("/login");
 
-  //const { discordId } = await User.findOne({ _id: session.user.userId }).exec();
-
   return (
     <>
      {children}

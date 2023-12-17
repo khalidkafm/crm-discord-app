@@ -22,14 +22,6 @@ export default async function GuildId({
 
   if (!session) redirect("/login");
 
-  // Fetch messages from MongoDB
-  let messages: any;
-
-  const { username } = await User.findOne({ _id: session.user.userId }).exec();
-  
-  await Message.find().then((data: any) => {
-    messages = data;
-  });
   return (
     <>
         <div className="flex h-screen">
