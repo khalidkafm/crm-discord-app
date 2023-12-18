@@ -1,75 +1,110 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 
-import { useEffect, useState } from "react";
-
-import { ScrollArea } from "./ui/scroll-area";
-import { InviteCard } from "./inviteCards";
-import { Input } from "./ui/input"
-
-
-
-//Adding types for Invite to manage typeScript expectations
-interface Invite {
-  _id: string;
-  name: string;
-  guildId: string;
-  guild: string
-  // Add other properties as needed
+interface Workspace {
+  guild_id: string;
+  guild_name: string;
+  user_id: string;
+  username: string;
+  roles_array: string[];
+  permissions: string[];
 }
 
-//props are guildId more to be added
-const InviteList = ({ guildId }: { guildId: string }) => {
+interface AccountCardsProps {
+  memberId: string;
+  guildId: string;
+  onData: (data: Workspace) => void;
+}
 
-const router = useRouter();
+export const AccountCard: React.FC<AccountCardsProps> = ({ memberId, guildId, onData }) => {
+  const router = useRouter();
+  const [workspacesData, setWorkspacesData] = useState<Workspace[]>([]);
 
-const [invitesData, setInvitesData] = useState<Invite[]>([]);
+  const fetchUrl =
+    process.env.NODE_ENV === 'development'
+      ? `http://localhost:4000/users/workspaces/${memberId}`
+      : `${process.env.NEXT_PUBLIC_PROD_BOT_URI}/workspaces/${memberId}`;
+      console.log('Received data from fetchUrl:',{memberId});
 
-console.log('guildId in invitlist', guildId)
-
-/// HERE FETCH OF WORKSPACES
-const memberId = "TO CATCH FROM PARAMS OR SESSION LUCIA"
-
-const fetchUrl = process.env.NODE_ENV === 'development'
-? `http://localhost:4000/workspaces/${memberId}` // LOCAL DEV discord redirect URI goes here 
-: `${process.env.NEXT_PUBLIC_PROD_BOT_URI}/workspaces/${memberId}` // PROD discord redirect URI goes here 
 
   useEffect(() => {
-    // Fetching invites from the API Invites with Arthur's discordId
+    console.log('Fetching data for memberId:', memberId);
+
     fetch(fetchUrl)
       .then((response) => response.json())
-      .then((invitesApiData) => {
-        if (!invitesApiData.result) {
-          console.log("Result is false check invites API");
-        } else {
-          const invites = invitesApiData.invites.map((invite : any) => ({...invite,
-            // handleClick: () => router.push(`/${guildId}/campaign/${invite._id}`),
-          }));
-          setInvitesData(invites);
-        }
+      .then((workspacesApiData) => {
+        console.log('Received workspaces API data:', workspacesApiData);
+
+        // if (!workspacesApiData.result) {
+        //   console.log('Result is false, check invites API');
+        // } else {
+        //   const userData = workspacesApiData.tableau.find((data: any) => data.user_id === memberId);
+        //   if (userData) {
+        //     setWorkspacesData([userData]);
+        //     onData(userData); // Call the callback with the user data
+        //   }
+        // }
+      })
+      
+      .catch((error) => {
+        console.error('Error fetching data:', error);
       });
-  }, []);
+  }, [memberId, router, fetchUrl, onData]);
 
-
-  //props used down are from the end point above attention to guildId in this Section
-  const invitesDisplay = invitesData.map((invite, i) => (
-    <div key={i} className="flex flex-row justify-between mb-2" style={{ marginRight: i < invitesData.length - 1 ? "8px" : 0 }}>
-      <InviteCard name={invite.name} guildId={invite.guild} campaignId={invite._id} /> 
-    </div>
-  ));
-
-  
-    return (
-      <>
-      <div className="flex items-center">
-      <Input placeholder="Search" className="h-9 w-full flex-grow border rounded-md"/>  
-      </div>
-
-      <ScrollArea className="w-full mt-2 h-[450px]">
-       {invitesDisplay}
-      </ScrollArea>
-      </>
-    );
+  const renderServers = (servers: string[]) => {
+    return servers.map((serverId) => (
+      <p key={serverId} className="text-[14px]">
+        {serverId}
+      </p>
+    ));
   };
-  
-  export { InviteList };
+
+  const renderAccordionItems = () => {
+    console.log('Rendering Accordion items:', workspacesData);
+    return workspacesData.map((workspace) => (
+      <AccordionItem key={workspace.guild_id} className="flex flex-row justify-center" value={workspace.guild_id}>
+        <AccordionTrigger className="flex justify-evenly">
+          <div className="flex justify-evenly">
+            <p className="text-[16px]">{workspace.guild_name}</p>
+          </div>
+        </AccordionTrigger>
+        <AccordionContent className="flex ml-100 flex-row justify-center overflow-hidden w-[220px] bg-zinc-200 text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-up">
+          <div className="flex flex-col">
+            <div>
+              <h3
+                style={{
+                  backgroundColor: "zinc",
+                  padding: "1rem",
+                  fontSize: "20px",
+                }}
+              >
+                Select Workspace
+              </h3>
+              {renderServers(workspace.roles_array)}
+              <Button style={{ backgroundColor: "black", padding: "1rem" }}>Add new server</Button>
+            </div>
+            <div className="flex flex-row">
+              <p>Username: {workspace.username}</p>
+            </div>
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    ));
+  };
+
+  console.log('Rendering AccountCard with memberId:', memberId);
+
+  return (
+    <>
+      <Accordion
+        type="single"
+        collapsible
+        className="flex flex-col h-[50px] w-[350px] rounded-md border p-6 ml-6 items-center justify-evenly py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180"
+      >
+        {renderAccordionItems()}
+      </Accordion>
+    </>
+  );
+};
