@@ -2,8 +2,6 @@ import { auth } from "@/auth/lucia";
 import * as context from "next/headers";
 import { redirect } from "next/navigation";
 
-import WarningHeader from "@/components/warning-header";
-
 
 const CampaignId = async ({ params }: { params: { guildId: string } }) => {
     console.log(params);
@@ -16,11 +14,19 @@ const CampaignId = async ({ params }: { params: { guildId: string } }) => {
 	if (!session) redirect("/login");
 
     return (
-		<>
-			<h1>this is Campaign Page</h1>
-            <p>User id :{ session.user.userId }</p>
-            <p>Guild id : {params.guildId}</p>
-		</>
+		
+		<div className="flex h-full flex-1 flex-col space-y-8 p-8">
+			<div className="flex items-center justify-between space-y-2">
+				<div>
+					<h2 className="text-2xl font-bold tracking-tight">/campaign</h2>
+					<p className="text-muted-foreground">
+						Guild {params.guildId} & User { session.user.userId }
+					</p>
+
+				</div>
+			</div>
+		</div>
+
 	);
 
 

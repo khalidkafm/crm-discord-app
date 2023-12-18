@@ -104,9 +104,9 @@ const InviteCard =
             </div>
           </div>
           <DialogFooter>
-          <Button variant="secondary" onClick={()=>handleSave()} >
+          {/* <Button variant="secondary" onClick={()=>handleSave()} >
               Save
-            </Button>
+            </Button> */}
             <Button variant="secondary" onClick={() => setIsOpen(false)}>
               Close
             </Button>
