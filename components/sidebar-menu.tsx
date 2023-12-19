@@ -311,51 +311,7 @@ export default function SideBarMenu({ guildId }: { guildId: string }) {
               </Button>
           </div>
           <InviteList guildId={guildId}></InviteList>
-          <Accordion
-            type="single"
-            collapsible
-            className="flex flex-col h-[50px] w-[350px] rounded-md border p-6 ml-6 items-center justify-evenly py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180"
-          >
-            <AccordionItem
-              className="flex flex-row justify-center"
-              value="item-1"
-            >
-              <AccordionTrigger className="flex justify-evenly">
-                <div className="flex justify-evenly">
-                  <p className="text-{100px}">My server 2</p>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="flex ml-100 flex-row justify-center overflow-hidden w-[220px] bg-zinc-200 text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-up">
-                <div className="flex flex-col">
-                  <div>
-                    <h3
-                      style={{
-                        backgroundColor: "zinc",
-                        padding: "1rem",
-                        fontSize: "200",
-                      }}
-                    >
-                      Select Workspace
-                    </h3>
-                    <div></div>
-                    <p className="text-{50px}">My server 1</p>
-                    <p>My server 5</p>
-                    <Button
-                      style={{ backgroundColor: "black", padding: "1rem" }}
-                    >
-                      add new server
-                    </Button>
-                  </div>
-                  <div className="flex flex-row">
-                    <p>Username:</p>
-                    <Form action="/api/logout">
-                      <input type="submit" value="Sign out" />
-                    </Form>
-                  </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+          
         </div>
       </div>
     </>

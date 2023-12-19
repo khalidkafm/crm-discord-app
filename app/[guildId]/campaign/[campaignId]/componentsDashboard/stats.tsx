@@ -1,3 +1,5 @@
+"use client"
+
 //import { useTheme } from "next-themes"
 import { Bar, BarChart, Line, LineChart, ResponsiveContainer } from "recharts"
 
@@ -10,42 +12,12 @@ import {
 } from "@/components/ui/card"
 //import { themes } from "@/registry/themes"
 
-const data = [
-  {
-    revenue: 10400,
-    subscription: 240,
-  },
-  {
-    revenue: 14405,
-    subscription: 300,
-  },
-  {
-    revenue: 9400,
-    subscription: 200,
-  },
-  {
-    revenue: 8200,
-    subscription: 278,
-  },
-  {
-    revenue: 7000,
-    subscription: 189,
-  },
-  {
-    revenue: 9600,
-    subscription: 239,
-  },
-  {
-    revenue: 11244,
-    subscription: 278,
-  },
-  {
-    revenue: 26475,
-    subscription: 189,
-  },
-]
 
-export function CardsStats() {
+interface CardsStatsProps {
+  data: {hourlyActiveMembers:{ hour: number; volume: number;}[], weeklyJoiners:{ totalJoiners:number; weeklyJoiners:{ volume: number }[] }};
+}
+
+export function CardsStats({ data }: CardsStatsProps) {
   //const { theme: mode } = useTheme()
   //const [config] = useConfig()
 
@@ -55,17 +27,29 @@ export function CardsStats() {
     <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-2">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-normal">Total Revenue</CardTitle>
+          <CardTitle className="text-sm font-normal">Active now</CardTitle>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            className="h-4 w-4 text-muted-foreground"
+          >
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+          </svg>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">$15,231.89</div>
+          <div className="text-2xl font-bold">{data.hourlyActiveMembers[5].volume}</div>
           <p className="text-xs text-muted-foreground">
-            +20.1% from last month
+            and the messages sent over the last hours
           </p>
           <div className="h-[80px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
-                data={data}
+                data={data.hourlyActiveMembers}
                 margin={{
                   top: 5,
                   right: 10,
@@ -76,13 +60,13 @@ export function CardsStats() {
                 <Line
                   type="monotone"
                   strokeWidth={2}
-                  dataKey="revenue"
+                  dataKey="volume"
                   activeDot={{
                     r: 6,
-                    fill: "var(--theme-primary)",
+                    fill: "currentColor",
                     opacity: 0.25,
                   }}
-                  stroke= "var(--theme-primary)"
+                  stroke= "currentColor"
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -91,18 +75,32 @@ export function CardsStats() {
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-normal">Subscriptions</CardTitle>
+          <CardTitle className="text-sm font-normal">Total joiners</CardTitle>
+          <svg
+             xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             strokeLinecap="round"
+             strokeLinejoin="round"
+             strokeWidth="2"
+             className="h-4 w-4 text-muted-foreground"
+           >
+             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+             <circle cx="9" cy="7" r="4" />
+             <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+           </svg>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">+2350</div>
+          <div className="text-2xl font-bold">{data.weeklyJoiners.totalJoiners}</div>
           <p className="text-xs text-muted-foreground">
-            +180.1% from last month
+            splited over last weeks below
           </p>
           <div className="mt-4 h-[80px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data}>
+              <BarChart data={data.weeklyJoiners.weeklyJoiners}>
                 <Bar
-                  dataKey="subscription"
+                  dataKey="volume"
                   fill={`var(--theme-primary)`}
                 />
               </BarChart>

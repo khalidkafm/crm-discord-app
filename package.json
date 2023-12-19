@@ -33,6 +33,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
+    "dayjs": "^1.11.10",
     "discord.js": "^14.14.1",
     "lucia": "^2.7.4",
     "mongoose": "^8.0.1",
