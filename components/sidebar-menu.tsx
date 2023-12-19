@@ -71,7 +71,7 @@ export default function SideBarMenu({
               <InviteList guildId={guildId}></InviteList>
             </div>
           </div>
-          <div>
+          <div className="w-2">
             <AccountCard 
             guildId={guildId}
             memberId={memberId}

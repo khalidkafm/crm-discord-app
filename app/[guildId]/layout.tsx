@@ -36,10 +36,10 @@ console.log(memberId);
   return (
     <>
         <div className="flex h-screen">
-        <div className="w-1/4 bg-gray-75 border-r-2 border-solid border-gray-500">
+        <div className="w-1/4 bg-gray-75 border-r-2 border-solid border-gray-500 overflow-y-auto">
             <SideBarMenu guildId={params.guildId} memberId={memberId} sessionData={{ data: { memberId}, status: 'authenticated' }}></SideBarMenu>
         </div>
-        <div className="flex-1 p-4 overflow-hidden">
+        <div className="flex-1 p-4 overflow-y-auto ">
             {children}
         </div>
     </div>
