@@ -28,7 +28,7 @@ const InviteList: React.FC<{ guildId: string}> = ({
   const [invitesData, setInvitesData] = useState<Invite[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  console.log("guildId in invitlist", guildId);
+  // console.log("guildId in invitlist", guildId);
 
   useEffect(() => {
     const fetchUrl =
@@ -95,7 +95,7 @@ const InviteList: React.FC<{ guildId: string}> = ({
         </div>
       </div>
 
-      <ScrollArea className="w-full mt-1 h-[450px]">
+      <ScrollArea className="w-full mt-1 h-[550px]">
         {filteredInvitesElements}
       </ScrollArea>
     </>

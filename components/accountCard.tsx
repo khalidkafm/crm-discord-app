@@ -37,15 +37,15 @@ export const AccountCard: React.FC<AccountCardsProps> = ({ memberId, guildId, on
       .then((workspacesApiData) => {
         console.log('Received workspaces API data:', workspacesApiData);
 
-        // if (!workspacesApiData.result) {
-        //   console.log('Result is false, check invites API');
-        // } else {
-        //   const userData = workspacesApiData.tableau.find((data: any) => data.user_id === memberId);
-        //   if (userData) {
-        //     setWorkspacesData([userData]);
-        //     onData(userData); // Call the callback with the user data
-        //   }
-        // }
+        if (!workspacesApiData.result) {
+          console.log('Result is false, check invites API');
+        } else {
+          const userData = workspacesApiData.tableau.find((data: any) => data.user_id === memberId);
+          if (userData) {
+            setWorkspacesData([userData]);
+            onData(userData); // Call the callback with the user data
+          }
+        }
       })
       
       .catch((error) => {
