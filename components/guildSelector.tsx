@@ -103,7 +103,7 @@ export const GuildSelector: React.FC<AccountCardsProps> = ({
   const fetchUrl =
     process.env.NODE_ENV === "development"
       ? `http://localhost:4000/users/workspaces/${memberId}`
-      : `${process.env.NEXT_PUBLIC_PROD_BOT_URI}/workspaces/${memberId}`;
+      : `${process.env.NEXT_PUBLIC_PROD_BOT_URI}/users/workspaces/${memberId}`;
   //   console.log("Received data from fetchUrl:", { memberId });
 
   useEffect(() => {
