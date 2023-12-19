@@ -485,6 +485,9 @@ async function getWeeklyJoiners(campaignId: string): Promise<WeeklyJoinersResult
     })
   );
 
+  // Reverse the weeklyJoiners array
+  weeklyJoiners.reverse();
+
   // Get the total number of joiners for the campaignId
   const totalJoiners = await getTotalJoiners(campaignId);
 
@@ -512,34 +515,6 @@ async function getTotalJoiners(campaignId: string): Promise<number> {
   const totalJoiners = await JoinEvent.countDocuments({ invite: new ObjectId(campaignId) });
   return totalJoiners;
 }
-
-// TO DELETE
-const weeklyJoinersOld = [
-  {
-    volume: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    volume: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    volume: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    volume: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    volume: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    volume: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    volume: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    volume: Math.floor(Math.random() * 5000) + 1000,
-  },
-]
 
 //---------------------
 //
