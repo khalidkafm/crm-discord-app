@@ -34,9 +34,6 @@ const { username, discordId} = await User.findOne({ _id: session.user.userId }).
 const memberId = discordId;
 
 
-
- 
-
   return (
     <>
         <div className="flex h-screen">
