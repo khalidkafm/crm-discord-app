@@ -12,6 +12,7 @@ import { AccountCard } from "./accountCard";
 
 import Form from "@/components/logout-form";
 import { GuildSelector } from "./guildSelector";
+import { NewInvite } from "./newInvite";
 
 export interface Workspace {
   _id: string;
@@ -19,6 +20,7 @@ export interface Workspace {
   name: string;
   username: string;
   guild_icon:string;
+  description:string;
 
   
   // Add other properties as needed
@@ -34,6 +36,7 @@ interface SideBarMenuProps {
     };
     status: string;
   };
+  // description: string;
 }
 
 export default function SideBarMenu({
@@ -41,6 +44,7 @@ export default function SideBarMenu({
   memberId,
   guildIcon,
   sessionData,
+  // description,
 }: SideBarMenuProps) {
   const router = useRouter();
 
@@ -66,6 +70,7 @@ export default function SideBarMenu({
             </div>
             <Button variant="default" className="justify-end">
               <PlusCircledIcon className="mr-2 h-4 w-4" />
+              {/* <NewInvite/> */}
               New
             </Button>
           </div>

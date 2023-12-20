@@ -69,7 +69,7 @@ const refreshPage=(myPage: any)=>{
           setInvitesData(invites);
         }
       });
-  }, [refreshPage,guildId]);
+  }, [refresh,guildId]);
   // console.log('invitesData:', invitesData);
 
   // Filter the list of invites based on the searchQuery.
