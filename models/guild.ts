@@ -1,7 +1,7 @@
-import mongodb from "mongoose";
+import mongoose from "mongoose";
 
-export const Guild = mongodb.models.Guild || mongodb.model("Guild",
-new mongodb.Schema(
+export const Guild = mongoose.models.Guild || mongoose.model("Guild",
+new mongoose.Schema(
 	{
         discordId: {
 			type: String,

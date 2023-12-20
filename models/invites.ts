@@ -1,7 +1,7 @@
-import mongodb from "mongoose";
+import mongoose from "mongoose";
 
-export const Invite = mongodb.models.Invite || mongodb.model("Invite",
-new mongodb.Schema(
+export const Invite = mongoose.models.Invite || mongoose.model("Invite",
+new mongoose.Schema(
 	{
         discordId: {
 			type: String,
@@ -20,7 +20,7 @@ new mongodb.Schema(
 			required: false
 		},
 		guild: {
-			type: mongodb.Schema.Types.ObjectId,
+			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Guild',
 			required: true
 		},

@@ -14,7 +14,8 @@ interface Invite {
   _id: string;
   name: string;
   guildId: string;
-  guild: string
+  guild: string;
+  description: string
   // Add other properties as needed
 }
 
@@ -24,8 +25,26 @@ const InviteList = ({ guildId }: { guildId: string }) => {
 const router = useRouter();
 
 const [invitesData, setInvitesData] = useState<Invite[]>([]);
+const [refresh, setRefresh] = React.useState<boolean>(false);
+const [actualPage, setActualPage] = React.useState<string>('');
 
 console.log('guildId in invitlist', guildId)
+
+const refreshPage=(myPage: any)=>{
+  setActualPage(myPage)
+  console.log('actual Page : ',actualPage, 'invitesData : ', invitesData[0]._id, "myPage : ", myPage)
+  if(refresh){
+
+    setRefresh(false)
+  }else if(!refresh){
+    setRefresh(true)
+  }
+  console.log('test page invitelist: ', invitesData[0]._id )
+  // router.push((`/${guildId}/campaign/${myPage || invitesData[0]._id}`))
+  window.location.reload()
+}
+
+
 
   useEffect(() => {
 
@@ -45,13 +64,14 @@ console.log('guildId in invitlist', guildId)
           setInvitesData(invites);
         }
       });
-  }, []);
+  }, [refresh]);
 
+ 
 
   //props used down are from the end point above attention to guildId in this Section
   const invitesDisplay = invitesData.map((invite, i) => (
     <div key={i} className="flex flex-row justify-between mb-2" style={{ marginRight: i < invitesData.length - 1 ? "8px" : 0 }}>
-      <InviteCard name={invite.name} guildId={invite.guild} campaignId={invite._id} /> 
+      <InviteCard name={invite.name} guildId={invite.guild} campaignId={invite._id} refreshPage={refreshPage} /> 
     </div>
   ));
 
