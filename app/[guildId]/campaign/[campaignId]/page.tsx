@@ -37,7 +37,12 @@ export const metadata: Metadata = {
   description: "Members list who joined from invite link",
 }
 
-// Simulate a database read for tasks.
+//---------------------
+//
+//            getCampaignMembers
+//
+//-----------------------
+
 async function getCampaignMembers(campaignId : string) {
 
   try {
@@ -157,6 +162,13 @@ async function getCampaignMembers(campaignId : string) {
     }
 }
 
+
+//---------------------
+//
+//            getJoinersMetrics
+//
+//-----------------------
+
 interface joinersMetrics {
   joinEventsToday: number;
   percentageVariationToday: number;
@@ -242,7 +254,13 @@ async function getJoinersMetrics(campaignId: string): Promise<joinersMetrics> {
   }
 }
 
-// un tableau avec par semaine, pour chacune des 12 dernières semaine, le % de membres ayant envoyé au moins 2 messages parmi les membres ayant un joinEvent pour ce campaign Id durant la semaine.
+// TO DO un tableau avec par semaine, pour chacune des 12 dernières semaine, le % de membres ayant envoyé au moins 2 messages parmi les membres ayant un joinEvent pour ce campaign Id durant la semaine.
+
+//---------------------
+//
+//            getHourlyActiveMembersData
+//
+//-----------------------
 
 interface HourlyActiveMembersData {
   hour: number;
@@ -302,6 +320,12 @@ async function getHourlyActiveMembersData(campaignId: string): Promise<HourlyAct
     return Array.from({ length: 6 }, (_, index) => ({ hour: index, volume: 0 }));
   }
 }
+
+//---------------------
+//
+//            getHourlyMessagesVolume
+//
+//-----------------------
 
 // Function working fine for the hourly volume of messages sent
 /*interface HourlyActiveMembersData {
@@ -510,68 +534,73 @@ async function getJoinEventsCountInWeek(
   return count;
 }
 
-// Helper function to get the total number of joiners for the campaignId
+// Helper function to get the total number of unique joiners for the campaignId
 async function getTotalJoiners(campaignId: string): Promise<number> {
-  const totalJoiners = await JoinEvent.countDocuments({ invite: new ObjectId(campaignId) });
+  const uniqueJoiners = await JoinEvent.distinct('member', { invite: new ObjectId(campaignId) });
+  const totalJoiners = uniqueJoiners.length;
   return totalJoiners;
 }
 
 //---------------------
 //
-//            getweeklyConversionRates TODO
+//            getDailyJoiners
 //
 //-----------------------
 
-const weeklyConversionRates = [
-  {
-    name: "10-17 Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "18-25 Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "18-25 Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "18-25 Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "18-25 Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "18-25 Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "18-25 Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "18-25 Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "18-25 Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "18-25 Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "18-25 Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "18-25 Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-]
+interface DailyJoinersResult {
+  date: string;
+  volume: number;
+}
+
+async function getDailyJoiners(campaignId: string): Promise<DailyJoinersResult[]> {
+  const currentDate = new Date();
+  const dailyJoiners: DailyJoinersResult[] = [];
+
+  for (let i = 0; i < 12; i++) {
+    const startDate = new Date(currentDate);
+    startDate.setDate(currentDate.getDate() - i);
+    startDate.setHours(0, 0, 0, 0);
+
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + 1);
+
+    const count = await getJoinEventsCountInDay(campaignId, startDate, endDate);
+
+    dailyJoiners.push({
+      date: formatDate(startDate),
+      volume: count,
+    });
+  }
+
+  return dailyJoiners.reverse();
+}
+
+function formatDate(date: Date): string {
+  const day = date.getDate();
+  const month = date.toLocaleString('en-us', { month: 'short' });
+  return `${day} ${month}`;
+}
+
+async function getJoinEventsCountInDay(
+  campaignId: string,
+  startDate: Date,
+  endDate: Date
+): Promise<number> {
+  const count = await JoinEvent.countDocuments({
+    invite: campaignId,
+    timestamp: {
+      $gte: startDate,
+      $lt: endDate,
+    },
+  });
+  return count;
+}
+
+//---------------------
+//
+//            THE PAGE COMPONENT
+//
+//-----------------------
 
 export default async function InvitePage({
   params,
@@ -585,9 +614,11 @@ export default async function InvitePage({
   const hourlyActiveMembers = await getHourlyActiveMembersData(params.campaignId);
   const dailyMessagesVolume = await getDailyMessagesVolume(params.campaignId);
   const weeklyJoiners = await getWeeklyJoiners(params.campaignId);
+  const dailyJoiners = await getDailyJoiners(params.campaignId);
   
   console.log('dailyMessagesVolume',dailyMessagesVolume)
   console.log('weeklyJoiners',weeklyJoiners)
+  console.log('dailyJoiners',dailyJoiners)
 
   return (
     <>
@@ -674,13 +705,13 @@ export default async function InvitePage({
                       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                         <Card className="col-span-4 mt-4 mb-4">
                           <CardHeader>
-                            <CardTitle>Conversion rates</CardTitle>
+                            <CardTitle>Daily joiners</CardTitle>
                             <CardDescription>
-                              Visualize the joiners to active members conversion.
+                              Visualize the daily joiners over the last 12 days
                             </CardDescription>
                           </CardHeader>
                           <CardContent className="pl-2">
-                            <Overview data={weeklyConversionRates} />
+                            <Overview data={dailyJoiners} />
                           </CardContent>
                         </Card>
                       </div>

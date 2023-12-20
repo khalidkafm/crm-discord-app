@@ -3,7 +3,7 @@
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 
 interface OverviewProps {
-  data: { name: string; total: number; }[];
+  data: { date: string; volume: number; }[];
 }
 
 export function Overview({ data }: OverviewProps) {
@@ -11,7 +11,7 @@ export function Overview({ data }: OverviewProps) {
     <ResponsiveContainer width="100%" height={250}>
       <BarChart data={data}>
         <XAxis
-          dataKey="name"
+          dataKey="date"
           stroke="#888888"
           fontSize={12}
           tickLine={false}
@@ -24,7 +24,7 @@ export function Overview({ data }: OverviewProps) {
           axisLine={false}
           tickFormatter={(value) => `${value}`}
         />
-        <Bar dataKey="total" fill="currentColor" radius={[4, 4, 0, 0]} />
+        <Bar dataKey="volume" fill="currentColor" radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   )
