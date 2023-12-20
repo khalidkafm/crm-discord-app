@@ -35,7 +35,7 @@ const InviteCard =
     // props are GuildId, CampaignId, name
     const router = useRouter();
 
-    const handleClick = () => router.push(`/${props.guildId}/campaign/${props.campaignId}`)
+    const handleClick = () => router.push(`/${props.guildId.replace(/^0+/, '')}/campaign/${props.campaignId}`)
     
     const fetchUrl = process.env.NODE_ENV === 'development'
     ? `http://localhost:4000/invites/edit/${linkId}` // LOCAL DEV discord redirect URI goes here 
