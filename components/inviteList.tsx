@@ -1,13 +1,13 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
 
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+
 import { useEffect, useState } from "react";
 
 import { ScrollArea } from "./ui/scroll-area";
 import { InviteCard } from "./inviteCards";
-import { Input } from "./ui/input"
-
-
+import { Input } from "./ui/input";
 
 //Adding types for Invite to manage typeScript expectations
 interface Invite {
@@ -16,19 +16,24 @@ interface Invite {
   guildId: string;
   guild: string;
   description: string
+  code: string;
   // Add other properties as needed
 }
 
 //props are guildId more to be added
-const InviteList = ({ guildId }: { guildId: string }) => {
+const InviteList: React.FC<{ guildId: string}> = ({
+  guildId,
+}) => {
+  const router = useRouter();
 
-const router = useRouter();
+  const [invitesData, setInvitesData] = useState<Invite[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
-const [invitesData, setInvitesData] = useState<Invite[]>([]);
 const [refresh, setRefresh] = React.useState<boolean>(false);
 const [actualPage, setActualPage] = React.useState<string>('');
 
 console.log('guildId in invitlist', guildId)
+  // console.log("guildId in invitlist", guildId);
 
 const refreshPage=(myPage: any)=>{
   setActualPage(myPage)
@@ -47,10 +52,10 @@ const refreshPage=(myPage: any)=>{
 
 
   useEffect(() => {
-
-    const fetchUrl = process.env.NODE_ENV === 'development'
-    ? `http://localhost:4000/invites/${guildId}` // LOCAL DEV discord redirect URI goes here 
-    : `${process.env.NEXT_PUBLIC_PROD_BOT_URI}/invites/${guildId}` // PROD discord redirect URI goes here 
+    const fetchUrl =
+      process.env.NODE_ENV === "development"
+        ? `http://localhost:4000/invites/${guildId}` // LOCAL DEV discord redirect URI goes here
+        : `${process.env.NEXT_PUBLIC_PROD_BOT_URI}/invites/${guildId}`; // PROD discord redirect URI goes here
     // Fetching invites from the API Invites with Arthur's discordId
     fetch(fetchUrl)
       .then((response) => response.json())
@@ -58,35 +63,65 @@ const refreshPage=(myPage: any)=>{
         if (!invitesApiData.result) {
           console.log("Result is false check invites API");
         } else {
-          const invites = invitesApiData.invites.map((invite : any) => ({...invite,
-            // handleClick: () => router.push(`/${guildId}/campaign/${invite._id}`),
+          const invites = invitesApiData.invites.map((invite: any) => ({
+            ...invite,
           }));
           setInvitesData(invites);
         }
       });
-  }, [refresh]);
+  }, [refreshPage,guildId]);
+  // console.log('invitesData:', invitesData);
 
- 
+  // Filter the list of invites based on the searchQuery.
+  // Each invite is an object with a 'code' property, and we want to check
+  // if the lowercase, trimmed 'code' includes the lowercase, trimmed 'searchQuery'.
+  // This helps in searching and displaying only the invites that match the search query.
+  const filteredInvites = invitesData.filter((invite) => {
+  // Extract the 'code' property from the invite, defaulting to an empty string if undefined.
+    const name = invite.name || "";
+    const match =
+      // Check if the lowercase, trimmed 'code' includes the lowercase, trimmed 'searchQuery'.
+      name.trim().toLowerCase().includes(searchQuery.trim().toLowerCase());
+    // Return true if there's a match, indicating that this invite should be included in the filtered list.
+    return match;
+  });
 
-  //props used down are from the end point above attention to guildId in this Section
-  const invitesDisplay = invitesData.map((invite, i) => (
-    <div key={i} className="flex flex-row justify-between mb-2" style={{ marginRight: i < invitesData.length - 1 ? "8px" : 0 }}>
-      <InviteCard name={invite.name} guildId={invite.guild} campaignId={invite._id} refreshPage={refreshPage} /> 
+  // Map the filteredInvites array to create an array of React elements representing the filtered invite cards.
+  // Each invite card is wrapped in a <div> with flex styling for layout purposes.
+  const filteredInvitesElements = filteredInvites.map((invite, i) => (
+    <div
+      key={i}
+      className="flex flex-row justify-between mb-2"
+      style={{ marginRight: i < filteredInvites.length - 1 ? "8px" : 0 }}
+    >
+      <InviteCard
+        name={invite.name}
+        guildId={invite.guild}
+        campaignId={invite._id}
+        refreshPage={refreshPage}
+      />
     </div>
   ));
 
-  
-    return (
-      <>
+  return (
+    <>
       <div className="flex items-center">
-      <Input placeholder="Search" className="h-9 w-full flex-grow border rounded-md"/>  
+        <div className="relative flex-grow">
+          <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-6 w-6" />
+          <Input
+            placeholder="Search"
+            value={searchQuery}
+            className="h-9 w-full pl-10 border rounded-md"
+            onChange={(event) => setSearchQuery(event.target.value)}
+          />
+        </div>
       </div>
 
-      <ScrollArea className="w-full mt-2 h-[450px]">
-       {invitesDisplay}
+      <ScrollArea className="w-full mt-1 h-[550px]">
+        {filteredInvitesElements}
       </ScrollArea>
-      </>
-    );
-  };
-  
-  export { InviteList };
+    </>
+  );
+};
+
+export { InviteList };
