@@ -32,24 +32,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { any, string } from "zod";
 
 import Form from "@/components/logout-form";
-import { Icon } from "@radix-ui/react-select";
+
 
 interface Workspace {
   guild_id: string;
@@ -68,16 +59,10 @@ interface AccountCardsProps {
   onData: (data: Workspace) => void;
 }
 
-// interface CommandInputProps {
-//     placeholder: string; 
-//     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-//   // ... other command input-related props
-// }
-
 type Server = {
   label: string;
   value: string;
-//   icon: string;
+  icon: string;
 };
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
@@ -95,10 +80,14 @@ export const GuildSelector: React.FC<AccountCardsProps> = ({
   const router = useRouter();
   const [workspacesData, setWorkspacesData] = useState<Workspace[]>([]);
   const [open, setOpen] = React.useState(false);
-  const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false);
+  const [showAddGuildDialog, setShowAddGuildDDialog] = React.useState(false);
   const [selectedGuild, setSelectedGuild] = React.useState<Server | null>(null);
   const [searchTerm, setSearchTerm] = React.useState("");
   const [guildIcon, setGuildIcon] = useState<string | null>(initialGuildIcon);
+
+
+  
+  
 
   const fetchUrl =
     process.env.NODE_ENV === "development"
@@ -107,8 +96,6 @@ export const GuildSelector: React.FC<AccountCardsProps> = ({
   //   console.log("Received data from fetchUrl:", { memberId });
 
   useEffect(() => {
-    console.log("Fetching data for memberId:", memberId);
-    console.log("Current Search Term:", searchTerm);
 
     fetch(fetchUrl)
       .then((response) => response.json())
@@ -119,24 +106,24 @@ export const GuildSelector: React.FC<AccountCardsProps> = ({
           //   console.log("Result is false, check invites API");
         } else {
           const userData = workspacesApiData.tableau.find((data: any) => {
-            console.log("Checking data:", data);
-            console.log("Guild Icon in API data:", data.guild_icon);
+
             // return data.user_id === memberId
             return data.user_id === memberId;
           });
 
           if (userData) {
-            console.log("User Data:", userData);
 
-            setWorkspacesData([userData]);
+            setWorkspacesData(workspacesApiData.tableau);
             onData(userData); // Call the callback with the user data
             setSelectedGuild({
               label: userData.guild_name,
               value: userData.guild_id,
+              icon: userData.guild_icon,
             });
           }
           setGuildIcon(userData.guild_icon);
         }
+        
       })
 
       .catch((error) => {
@@ -144,17 +131,21 @@ export const GuildSelector: React.FC<AccountCardsProps> = ({
       });
   }, [memberId, router, fetchUrl, guildIcon, onData, searchTerm]);
 
-  const filteredWorkspaces = workspacesData.filter((workspace) =>
-    workspace.guild_name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+
+
+
+  const filteredWorkspaces = workspacesData
+
+  const activeGuildData = workspacesData.find(item => item.guild_id==guildId)
+
+//   console.log('activeGuildData : ',activeGuildData)
 
   return (
  
     <div>
-    <Dialog  open={showNewTeamDialog} onOpenChange={setShowNewTeamDialog}>
+    <Dialog  open={showAddGuildDialog} onOpenChange={setShowAddGuildDDialog}>
       <Popover  open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <div className="w-full">
             <Button
               variant="outline"
               role="combobox"
@@ -166,24 +157,23 @@ export const GuildSelector: React.FC<AccountCardsProps> = ({
                 <>
                   <Avatar className="mr-2 h-5 w-5">
                     <AvatarImage
-                      src={`https://cdn.discordapp.com/icons/${selectedGuild.value}/${guildIcon}.webp?size=240`}
-                      alt={selectedGuild.label}
+                      src={`https://cdn.discordapp.com/icons/${activeGuildData?.guild_id}/${activeGuildData?.guild_icon}.webp?size=240`}
+                      alt={activeGuildData?.guild_name}
                     />
-                    <AvatarFallback>H</AvatarFallback>
+                    <AvatarFallback></AvatarFallback>
                   </Avatar>
-                  {selectedGuild.label}
+                  {activeGuildData?.guild_name}
                   <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
                 </>
               )}
             </Button>
-          </div>
         </PopoverTrigger>
-        <PopoverContent className="w-full p-0">
-        
+        <PopoverContent className="w-[400px] p-0">
           <Command >
             <CommandList>
               <CommandInput
                 placeholder="Search server..."
+                
                 // onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 //   setSearchTerm(e.target.value);
                 //   console.log("Search Term:", e.target.value);
@@ -192,36 +182,43 @@ export const GuildSelector: React.FC<AccountCardsProps> = ({
               {filteredWorkspaces.length === 0 && (
                 <CommandEmpty>No Server found.</CommandEmpty>
               )}
+              <h3 className="overflow-hidden p-1 text-foreground px-2 py-1.5 text-s font-medium text-muted-foreground">My Workspace</h3>
               {filteredWorkspaces.map((workspace) => (
                 <CommandGroup
                   key={workspace.guild_id}
-                  heading="My workspace"
-                  style={{ fontSize: "10px" }}
+
                 >
                   <CommandItem
-                    onSelect={() => {
-                      setSelectedGuild({
+                  key={'value'}
+                  
+                    onSelect={(value) => {
+                     setSelectedGuild({
                         label: workspace.guild_name,
-                        value: workspace.guild_id,
-                        // icon: workspace.guild_icon,
-                      });
-                      setOpen(false);
-                    }}
+                      value: workspace.guild_id,
+                       icon: workspace.guild_icon,
+                     });
+                    setOpen(false);
+
+                    // Use the router to navigate to the guild page with the selected guildId
+                router.push(`/${workspace.guild_id}`,{shallow: true})
+                
+                }}
+
                     className="text-sm"
                   >
                     <Avatar className="mr-2 h-5 w-5">
                       <AvatarImage
-                        src={`https://cdn.discordapp.com/icons/${workspace.guild_id}/${guildIcon}.webp?size=240`}
+                        src={`https://cdn.discordapp.com/icons/${workspace.guild_id}/${workspace.guild_icon}.webp?size=240`}
                         alt={workspace.guild_name}
-                        className="grayscale"
+                        className=""
                       />
-                      <AvatarFallback>SC</AvatarFallback>
+                      <AvatarFallback></AvatarFallback>
                     </Avatar>
                     {workspace.guild_name}
                     <CheckIcon
                       className={cn(
                         "ml-auto h-4 w-4",
-                        selectedGuild?.value === workspace.guild_id
+                        guildId === workspace.guild_id
                           ? "opacity-100"
                           : "opacity-0"
                       )}
@@ -237,7 +234,7 @@ export const GuildSelector: React.FC<AccountCardsProps> = ({
                   <CommandItem
                     onSelect={() => {
                       setOpen(false);
-                      setShowNewTeamDialog(true);
+                      setShowAddGuildDDialog(true);
                     }}
                   >
                     <PlusCircledIcon className="mr-2 h-5 w-5" />
@@ -246,7 +243,7 @@ export const GuildSelector: React.FC<AccountCardsProps> = ({
                 </DialogTrigger>
                 {selectedGuild && (
                   <div className="flex items-center justify-between">
-                    <p className="px-6mr-2 h-5 w-5">
+                    <p className="overflow-hidden p-1 text-foreground px-2 py-1.5 text-lg font-medium text-muted-foreground">
                       {workspacesData[0]?.username}
                     </p>
                     <Form action="/api/logout">
