@@ -15,11 +15,7 @@ const Page = async () => {
 	const session = await authRequest.validate();
 	if (!session) redirect("/login");
 
-	// Fetch messages from MongoDB
-	let messages: any;
-
 	const { username } = await User.findOne({ _id: session.user.userId}).exec()
-	await Message.find().then((data : any) => { messages = data })
 
 	return (
 		<>
@@ -29,7 +25,6 @@ const Page = async () => {
 			<Form action="/api/logout">
 				<input type="submit" value="Sign out" />
 			</Form>
-			<p>Messages: { messages.toString() }</p>
 		</>
 	);
 };
