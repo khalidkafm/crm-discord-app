@@ -4,6 +4,7 @@ import * as context from "next/headers";
 import { redirect } from "next/navigation";
 import { Message } from "../../models/message";
 import { User } from "../../models/user";
+import Image from "next/image";
 
 
 const GuildIdPage = async ({ params }: { params: { guildId: string } }) => {
@@ -22,7 +23,14 @@ const GuildIdPage = async ({ params }: { params: { guildId: string } }) => {
               Select an invite from {params.guildId}
             </p>
             <p className="text-muted-foreground">
-              to view its performance 
+              to view its performance
+              <Image
+          src="/khalid fleche.gif"
+          alt="arrow left"
+          width={800}
+          height={35}
+          className="relative top-15 px-5 py-5"
+        ></Image>
             </p>
           </div>
         </div>

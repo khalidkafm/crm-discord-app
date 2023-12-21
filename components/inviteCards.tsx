@@ -73,8 +73,10 @@ const InviteCard =
           className="flex-start items-center justify-start bg-white p-5 mt-3 rounded-lg"
           type="button"
         >
+          <div className="text-left">
           {props.name}
-          {isHovered && <p >{props.description}</p>}
+          {isHovered && <p className="text-xs	text-slate-500">{props.description}</p>}
+          </div>
         </Button>
         <DropdownMenu >
           <DropdownMenuTrigger asChild>
