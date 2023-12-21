@@ -38,8 +38,8 @@ const NewInvite =
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    _id: '658302a5e96125b3224b5164',//à récupérer sur Discord 
-                    code: 'F36peZ',// à récupérer sur Discord 
+                    // _id: '658302a5e96125b3224b5164',//à récupérer sur Discord 
+                    // code: 'F36peZ',// à récupérer sur Discord 
                     name: linkName,
                     guild: props.IDGuild, // à dynamiser
                     description: linkDescription,
