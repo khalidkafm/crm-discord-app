@@ -271,7 +271,9 @@ async function getHourlyActiveMembersData(campaignId: string): Promise<HourlyAct
   try {
     const currentDate = new Date();
     const sixHoursAgo = new Date(currentDate.getTime() - 6 * 60 * 60 * 1000);
+
     console.log('currentDate : ',currentDate);
+    console.log('currentDate.getTime() : ',currentDate.getTime());
 
     // Step 1: Get the list of members from filtered joinEvents
     const members = await JoinEvent.distinct('member', { invite: new ObjectId(campaignId) });
@@ -307,7 +309,8 @@ async function getHourlyActiveMembersData(campaignId: string): Promise<HourlyAct
 
     // Step 3: Format the result
     const formattedResult: HourlyActiveMembersData[] = Array.from({ length: 6 }, (_, index) => {
-      const hour = (currentDate.getHours() - 6 + index + 24) % 24; // Calculate hour for the last 6 hours
+      const hour = (currentDate.getUTCHours() - 5 + index + 24) % 24; // Calculate hour for the last 6 hours
+      console.log('hour : ',hour)
       const matchingItem = result.find((item: any) => item._id === hour);
       return {
         hour,
