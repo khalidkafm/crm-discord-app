@@ -663,7 +663,7 @@ export default async function InvitePage({
                           <CardContent>
                             <div className="text-2xl font-bold">{joinersMetrics.joinEventsToday}</div>
                             <p className="text-xs text-muted-foreground">
-                              {joinersMetrics.percentageVariationToday}% from yesterday
+                              {Number(joinersMetrics.percentageVariationToday.toFixed(1))}% from yesterday
                             </p>
                           </CardContent>
                         </Card>
@@ -677,7 +677,7 @@ export default async function InvitePage({
                           <CardContent>
                             <div className="text-2xl font-bold">{joinersMetrics.joinEventsThisWeek}</div>
                             <p className="text-xs text-muted-foreground">
-                              {joinersMetrics.percentageVariationThisWeek}% from last week
+                              {Number(joinersMetrics.percentageVariationThisWeek.toFixed(1))}% from last week
                             </p>
                           </CardContent>
                         </Card>
@@ -689,7 +689,7 @@ export default async function InvitePage({
                           <CardContent>
                             <div className="text-2xl font-bold">{joinersMetrics.joinEventsThisMonth}</div>
                             <p className="text-xs text-muted-foreground">
-                              {joinersMetrics.percentageVariationThisMonth}% from last month
+                              {Number(joinersMetrics.percentageVariationThisMonth.toFixed(1))}% from last month
                             </p>
                           </CardContent>
                         </Card>
