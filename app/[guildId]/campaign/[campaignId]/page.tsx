@@ -271,6 +271,7 @@ async function getHourlyActiveMembersData(campaignId: string): Promise<HourlyAct
   try {
     const currentDate = new Date();
     const sixHoursAgo = new Date(currentDate.getTime() - 6 * 60 * 60 * 1000);
+    console.log('currentDate : ',currentDate);
 
     // Step 1: Get the list of members from filtered joinEvents
     const members = await JoinEvent.distinct('member', { invite: new ObjectId(campaignId) });
