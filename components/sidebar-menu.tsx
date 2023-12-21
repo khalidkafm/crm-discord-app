@@ -57,7 +57,7 @@ export default function SideBarMenu({
   
 
   return (
-    <>
+    <div>
       <div className="space-y-4 py-4 overflow-hidden">
         <Image
           src="/LogoDiscordCRM.png"
@@ -66,23 +66,23 @@ export default function SideBarMenu({
           height={35}
           className="relative top-15 px-5 py-5"
         ></Image>
-        <div className="px-4 py-12">
-          <div className="py-3 flex justify-between items-center">
+        <div className="py-0 justify-between items-start">
+          <div className="py-0 flex justify-between items-center">
             <div className="flex-grow">
-              <h2 className="text-2xl font-bold tracking-tight">
-              Campaigns
-              </h2>
+              
             </div>
             {/* <Button variant="default" className="justify-end">
               <PlusCircledIcon className="mr-2 h-4 w-4" />
               <NewInvite/>
               New
             </Button> */}
-            <NewInvite IDGuild={IDGuild}/>
+            <div>
+
+            </div>
           </div>
           <div className="py-1">
             <div className="invite-list-container">
-              <InviteList guildId={guildId}></InviteList>
+              <InviteList guildId={guildId} ></InviteList>
             </div>
           </div>
           <div className="py-5">
@@ -96,6 +96,6 @@ export default function SideBarMenu({
 
         </div>
       </div>
-    </>
+    </div>
   );
 }

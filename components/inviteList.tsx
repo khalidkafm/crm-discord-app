@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { ScrollArea } from "./ui/scroll-area";
 import { InviteCard } from "./inviteCards";
 import { Input } from "./ui/input";
+import { NewInvite } from "./newInvite";
 
 //Adding types for Invite to manage typeScript expectations
 interface Invite {
@@ -21,7 +22,7 @@ interface Invite {
 }
 
 //props are guildId more to be added
-const InviteList: React.FC<{ guildId: string}> = ({
+const InviteList: React.FC<{ guildId: string }> = ({
   guildId,
 }) => {
   const router = useRouter();
@@ -29,29 +30,29 @@ const InviteList: React.FC<{ guildId: string}> = ({
   const [invitesData, setInvitesData] = useState<Invite[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-const [refresh, setRefresh] = React.useState<boolean>(false);
-//const [actualPage, setActualPage] = React.useState<string>('');
+  const [refresh, setRefresh] = React.useState<boolean>(false);
+  //const [actualPage, setActualPage] = React.useState<string>('');
 
-console.log('guildId in invitlist', guildId)
+  console.log('guildId in invitlist', guildId)
   // console.log("guildId in invitlist", guildId);
 
-const refreshPage=(myPage: any)=>{
-  //setActualPage(myPage)
-  console.log('invitesData : ', invitesData[0]._id, "myPage : ", myPage)
-  if(refresh){
+  const refreshPage = (myPage: any) => {
+    //setActualPage(myPage)
+    console.log('invitesData : ', invitesData[0]._id, "myPage : ", myPage)
+    if (refresh) {
 
-    setRefresh(false)
-  }else if(!refresh){
-    setRefresh(true)
-  }
-  console.log('test page invitelist: ', invitesData[0]._id )
-    
+      setRefresh(false)
+    } else if (!refresh) {
+      setRefresh(true)
+    }
+    console.log('test page invitelist: ', invitesData[0]._id)
+
     const actualUrl = window.location.href
     const match = actualUrl.match(/\/campaign\/([^\/]+)/);
-      if (match) {
-        router.refresh()
-      }
-}
+    if (match) {
+      router.refresh()
+    }
+  }
 
 
 
@@ -73,7 +74,7 @@ const refreshPage=(myPage: any)=>{
           setInvitesData(invites);
         }
       });
-  }, [refresh,guildId]);
+  }, [refresh, guildId]);
   // console.log('invitesData:', invitesData);
 
   // Filter the list of invites based on the searchQuery.
@@ -81,7 +82,7 @@ const refreshPage=(myPage: any)=>{
   // if the lowercase, trimmed 'code' includes the lowercase, trimmed 'searchQuery'.
   // This helps in searching and displaying only the invites that match the search query.
   const filteredInvites = invitesData.filter((invite) => {
-  // Extract the 'code' property from the invite, defaulting to an empty string if undefined.
+    // Extract the 'code' property from the invite, defaulting to an empty string if undefined.
     const name = invite.name || "";
     const match =
       // Check if the lowercase, trimmed 'code' includes the lowercase, trimmed 'searchQuery'.
@@ -95,7 +96,7 @@ const refreshPage=(myPage: any)=>{
   const filteredInvitesElements = filteredInvites.map((invite, i) => (
     <div
       key={i}
-      className="flex flex-row justify-between mb-2"
+      className="flex flex-row justify-between mb-2 w-full"
       style={{ marginRight: i < filteredInvites.length - 1 ? "8px" : 0 }}
     >
       <InviteCard
@@ -107,10 +108,18 @@ const refreshPage=(myPage: any)=>{
       />
     </div>
   ));
+  const IDGuild = guildId;
 
   return (
     <>
+      <div className="py-3 flex justify-between items-start pl-3 pr-3">
+        <h2 className="text-2xl font-bold tracking-tight">
+          Campaigns
+        </h2>
+        <NewInvite IDGuild={IDGuild} refreshPage={refreshPage} guildId={guildId}/>
+      </div>
       <div className="flex items-center w-full">
+
         <div className="relative flex-grow">
           <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-6 w-6" />
           <Input
@@ -120,6 +129,7 @@ const refreshPage=(myPage: any)=>{
             onChange={(event) => setSearchQuery(event.target.value)}
           />
         </div>
+
       </div>
       <ScrollArea className="w-full mt-1 h-[500px]">
         {filteredInvitesElements}
