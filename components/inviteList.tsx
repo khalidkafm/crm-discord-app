@@ -49,10 +49,7 @@ const refreshPage=(myPage: any)=>{
     const actualUrl = window.location.href
     const match = actualUrl.match(/\/campaign\/([^\/]+)/);
       if (match) {
-        const campaignId = match[1];
-        if (campaignId==myPage){
-          router.refresh()
-        }
+        router.refresh()
       }
 }
 
