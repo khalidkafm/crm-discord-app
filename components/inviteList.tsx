@@ -30,14 +30,14 @@ const InviteList: React.FC<{ guildId: string}> = ({
   const [searchQuery, setSearchQuery] = useState("");
 
 const [refresh, setRefresh] = React.useState<boolean>(false);
-const [actualPage, setActualPage] = React.useState<string>('');
+//const [actualPage, setActualPage] = React.useState<string>('');
 
 console.log('guildId in invitlist', guildId)
   // console.log("guildId in invitlist", guildId);
 
 const refreshPage=(myPage: any)=>{
-  setActualPage(myPage)
-  console.log('actual Page : ',actualPage, 'invitesData : ', invitesData[0]._id, "myPage : ", myPage)
+  //setActualPage(myPage)
+  console.log('invitesData : ', invitesData[0]._id, "myPage : ", myPage)
   if(refresh){
 
     setRefresh(false)
@@ -45,8 +45,15 @@ const refreshPage=(myPage: any)=>{
     setRefresh(true)
   }
   console.log('test page invitelist: ', invitesData[0]._id )
-  // router.push((`/${guildId}/campaign/${myPage || invitesData[0]._id}`))
-  window.location.reload()
+    
+    const actualUrl = window.location.href
+    const match = actualUrl.match(/\/campaign\/([^\/]+)/);
+      if (match) {
+        const campaignId = match[1];
+        if (campaignId==myPage){
+          router.refresh()
+        }
+      }
 }
 
 
@@ -96,6 +103,7 @@ const refreshPage=(myPage: any)=>{
     >
       <InviteCard
         name={invite.name}
+        description={invite.description}
         guildId={invite.guild}
         campaignId={invite._id}
         refreshPage={refreshPage}
@@ -105,7 +113,7 @@ const refreshPage=(myPage: any)=>{
 
   return (
     <>
-      <div className="flex items-center">
+      <div className="flex items-center w-full">
         <div className="relative flex-grow">
           <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-6 w-6" />
           <Input
@@ -116,8 +124,7 @@ const refreshPage=(myPage: any)=>{
           />
         </div>
       </div>
-
-      <ScrollArea className="w-full mt-1 h-[550px]">
+      <ScrollArea className="w-full mt-1 h-[500px]">
         {filteredInvitesElements}
       </ScrollArea>
     </>

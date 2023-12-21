@@ -25,6 +25,7 @@ import { Overview } from "@/app/[guildId]/campaign/[campaignId]/componentsDashbo
 import { CardsMetric } from "@/app/[guildId]/campaign/[campaignId]/componentsDashboard/metric"
 import { CardsStats } from "@/app/[guildId]/campaign/[campaignId]/componentsDashboard/stats"
 import { CopyIcon, ExternalLinkIcon, CalendarIcon } from '@radix-ui/react-icons'
+import CopyToClipboard from "@/components/CopyToClipboard"
 
 import { JoinEvent } from '@/models/joinEvents';
 import { Invite } from '@/models/invites';
@@ -630,10 +631,7 @@ export default async function InvitePage({
         <div className="flex items-center justify-between space-y-2">
           <div>
             <h2 className="text-2xl font-bold tracking-tight">{invite.name}</h2>
-            <p className="text-muted-foreground flex items-center">
-              https://discord.gg/{invite.code}
-                  <ExternalLinkIcon className="h-4 w-4 text-muted-foreground ml-2" />
-            </p>
+            <CopyToClipboard inviteCode={invite.code} />
           </div>
           <div className="flex items-center space-x-2">
             <InviteMenu />

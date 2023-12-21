@@ -63,19 +63,34 @@ const InviteCard =
  
 
     return (
-        <Button
-        onClick={handleClick}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        variant = "ghost"
-        className="flex-row items-center justify-between w-[300px] bg-white p-5 mt-3 rounded-lg"
-        type="button"
-      >
-        {props.name}
-        
-    
-        {isHovered && <p>{linkDescription}</p>}
-        <Dialog open={open} onOpenChange={setIsOpen} >
+
+      <div className="flex-row items-center justify-between w-full bg-white rounded-lg">
+          <Button
+            onClick={handleClick}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            variant = "ghost"
+            className="flex-row items-center justify-between bg-white p-5 mt-3 rounded-lg"
+            type="button"
+          >
+            {props.name}
+            {isHovered && <p >{props.description}</p>}
+          </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="ml-auto">
+            <span className="sr-only">Actions</span>
+              <DotsHorizontalIcon className="h-4 w-4" />
+            </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onSelect={() => setIsOpen(true)}>
+            Edit
+          </DropdownMenuItem>
+          
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <Dialog open={open} onOpenChange={setIsOpen} >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Edit</DialogTitle>
@@ -116,24 +131,9 @@ const InviteCard =
             </Button>
           </DialogFooter>
         </DialogContent>
-      </Dialog>        <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="secondary">
-            <span className="sr-only">Actions</span>
-            <DotsHorizontalIcon className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onSelect={() => setIsOpen(true)}>
-            Edit
-          </DropdownMenuItem>
-          
-        </DropdownMenuContent>
-      </DropdownMenu>
-
-
-        
-      </Button>
+      </Dialog>        
+      
+    </div>
     )
   }
 
