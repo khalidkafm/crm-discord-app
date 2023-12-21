@@ -50,6 +50,11 @@ export default function SideBarMenu({
 
   // console.log("sessionData in SideBarMenu:", sessionData);
   // console.log("Member ID from session data:", sessionData?.data?.memberId);
+  console.log('SIDEBAR : ', guildId, memberId)
+
+  
+    const IDGuild = guildId;
+  
 
   return (
     <>
@@ -68,11 +73,12 @@ export default function SideBarMenu({
               Campaigns
               </h2>
             </div>
-            <Button variant="default" className="justify-end">
+            {/* <Button variant="default" className="justify-end">
               <PlusCircledIcon className="mr-2 h-4 w-4" />
-              {/* <NewInvite/> */}
+              <NewInvite/>
               New
-            </Button>
+            </Button> */}
+            <NewInvite IDGuild={IDGuild}/>
           </div>
           <div className="py-1">
             <div className="invite-list-container">

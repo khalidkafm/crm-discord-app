@@ -23,7 +23,6 @@ import { Label } from "@/components/ui/label"
 
 const InviteCard =
   ({ ...props }) => {
-
     const [open, setIsOpen] = React.useState<boolean>(false)
   const [linkName, setLinkName] = React.useState<string>('')
   const [linkDescription, setLinkDescription] = React.useState<string>('')
