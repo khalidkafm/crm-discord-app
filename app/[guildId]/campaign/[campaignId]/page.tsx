@@ -308,6 +308,7 @@ async function getHourlyActiveMembersData(campaignId: string): Promise<HourlyAct
     // Step 3: Format the result
     const formattedResult: HourlyActiveMembersData[] = Array.from({ length: 6 }, (_, index) => {
       const hour = (currentDate.getHours() - 6 + index + 24) % 24; // Calculate hour for the last 6 hours
+      console.log('hour : ',hour)
       const matchingItem = result.find((item: any) => item._id === hour);
       return {
         hour,
