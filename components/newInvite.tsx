@@ -31,7 +31,7 @@ const NewInvite =
 
         const fetchUrl = process.env.NODE_ENV === 'development'
             ? `http://localhost:4000/invites/newLink` // LOCAL DEV discord redirect URI goes here 
-            : `${process.env.NEXT_PUBLIC_PROD_BOT_URI}/invites/edit` // PROD discord redirect URI goes here
+            : `${process.env.NEXT_PUBLIC_PROD_BOT_URI}/invites/newLink` // PROD discord redirect URI goes here
 
         const handleSave = async () => {
             await fetch(fetchUrl, {
