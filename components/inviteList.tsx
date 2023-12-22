@@ -22,7 +22,7 @@ interface Invite {
 }
 
 //props are guildId more to be added
-const InviteList: React.FC<{ guildId: string}> = ({
+const InviteList: React.FC<{ guildId: string }> = ({
   guildId,
 }) => {
   const router = useRouter();
@@ -30,29 +30,29 @@ const InviteList: React.FC<{ guildId: string}> = ({
   const [invitesData, setInvitesData] = useState<Invite[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-const [refresh, setRefresh] = React.useState<boolean>(false);
-//const [actualPage, setActualPage] = React.useState<string>('');
+  const [refresh, setRefresh] = React.useState<boolean>(false);
+  //const [actualPage, setActualPage] = React.useState<string>('');
 
-console.log('guildId in invitlist', guildId)
+  console.log('guildId in invitlist', guildId)
   // console.log("guildId in invitlist", guildId);
 
-const refreshPage=(myPage: any)=>{
-  //setActualPage(myPage)
-  console.log('invitesData : ', invitesData[0]._id, "myPage : ", myPage)
-  if(refresh){
+  const refreshPage = (myPage: any) => {
+    //setActualPage(myPage)
+    console.log('invitesData : ', invitesData[0]._id, "myPage : ", myPage)
+    if (refresh) {
 
-    setRefresh(false)
-  }else if(!refresh){
-    setRefresh(true)
-  }
-  console.log('test page invitelist: ', invitesData[0]._id )
-    
+      setRefresh(false)
+    } else if (!refresh) {
+      setRefresh(true)
+    }
+    console.log('test page invitelist: ', invitesData[0]._id)
+
     const actualUrl = window.location.href
     const match = actualUrl.match(/\/campaign\/([^\/]+)/);
-      if (match) {
-        router.refresh()
-      }
-}
+    if (match) {
+      router.refresh()
+    }
+  }
 
 
 
@@ -74,7 +74,7 @@ const refreshPage=(myPage: any)=>{
           setInvitesData(invites);
         }
       });
-  }, [refresh,guildId]);
+  }, [refresh, guildId]);
   // console.log('invitesData:', invitesData);
 
   // Filter the list of invites based on the searchQuery.
@@ -82,7 +82,7 @@ const refreshPage=(myPage: any)=>{
   // if the lowercase, trimmed 'code' includes the lowercase, trimmed 'searchQuery'.
   // This helps in searching and displaying only the invites that match the search query.
   const filteredInvites = invitesData.filter((invite) => {
-  // Extract the 'code' property from the invite, defaulting to an empty string if undefined.
+    // Extract the 'code' property from the invite, defaulting to an empty string if undefined.
     const name = invite.name || "";
     const match =
       // Check if the lowercase, trimmed 'code' includes the lowercase, trimmed 'searchQuery'.
@@ -96,7 +96,7 @@ const refreshPage=(myPage: any)=>{
   const filteredInvitesElements = filteredInvites.map((invite, i) => (
     <div
       key={i}
-      className="flex flex-row justify-between mb-2"
+      className="flex flex-row justify-between mb-2 w-full"
       style={{ marginRight: i < filteredInvites.length - 1 ? "8px" : 0 }}
     >
       <InviteCard
@@ -108,6 +108,7 @@ const refreshPage=(myPage: any)=>{
       />
     </div>
   ));
+  const IDGuild = guildId;
 
   return (
     <>
@@ -118,20 +119,19 @@ const refreshPage=(myPage: any)=>{
         <NewInvite IDGuild={guildId} refreshPage={refreshPage} guildId={guildId}/>
       </div>
       <div className="flex items-center w-full">
-
-    <div className="relative flex-grow pl-2 pr-2">
-      <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-6 w-6" />
-      <Input
-        placeholder="Search"
-        value={searchQuery}
-        className="h-9 w-full pl-10 border rounded-md"
-        onChange={(event) => setSearchQuery(event.target.value)}
-      />
-    </div>
-  </div>
-  <ScrollArea className="w-full mt-1 h-[500px]">
-    {filteredInvitesElements}
-  </ScrollArea>
+        <div className="relative flex-grow ml-2 mr-1">
+          <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-6 w-6" />
+          <Input
+            placeholder="Search"
+            value={searchQuery}
+            className="h-9 w-full pl-10 border rounded-md"
+            onChange={(event) => setSearchQuery(event.target.value)}
+          />
+        </div>
+      </div>
+      <ScrollArea className="w-full mt-1 h-[500px]">
+        {filteredInvitesElements}
+      </ScrollArea>
     </>
   );
 };

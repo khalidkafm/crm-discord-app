@@ -65,12 +65,6 @@ export default function SideBarMenu({
           className="relative top-15 px-5 py-5"
         ></Image>
         <div className="py-0 justify-between items-start">
-          <div className="py-0 flex justify-between items-center">
-            <div className="flex-grow">
-            </div>
-            <div>
-            </div>
-          </div>
           <div className="py-1">
             <div className="invite-list-container">
               <InviteList guildId={guildId} ></InviteList>

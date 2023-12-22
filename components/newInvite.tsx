@@ -49,17 +49,20 @@ const NewInvite =
                 setIsOpen(false)
                 // props.refreshPage(props.campaignId)
                 // console.log(props)
-                window.location.reload()
-            })
+                props.refreshPage(props.guildId)            })
+        }
+        const handleClose = () =>{
+            setIsOpen(false)
         }
 
 
         return (
+            <>
             <Button
                 // onClick={handleClick}
                 onClick={() => setIsOpen(true)}
                 variant="default"
-                className="justify-end"
+                className="justify-end -mr-2"
                 type="button"
             >
                 <PlusCircledIcon className="mr-2 h-4 w-4" />
@@ -103,7 +106,7 @@ const NewInvite =
                             <Button variant="secondary" onClick={() => handleSave()}>
                                 Save
                             </Button>
-                            <Button variant="secondary" onClick={() => setIsOpen(false)}>
+                            <Button variant="secondary" onClick={() => handleClose()}>
                                 Close
                             </Button>
                         </DialogFooter>
@@ -112,6 +115,7 @@ const NewInvite =
 
 
             </Button>
+            </>
         )
     }
 
