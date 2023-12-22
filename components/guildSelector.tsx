@@ -228,6 +228,9 @@ export const GuildSelector: React.FC<AccountCardsProps> = ({
                 <CommandGroup>
                   <DialogTrigger  asChild>
                     <CommandItem
+                      className={cn(
+                        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-white aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+                      )}
                       onSelect={() => {
                         setOpen(false);
                         setShowAddGuildDDialog(true);
