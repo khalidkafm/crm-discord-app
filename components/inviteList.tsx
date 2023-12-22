@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { ScrollArea } from "./ui/scroll-area";
 import { InviteCard } from "./inviteCards";
 import { Input } from "./ui/input";
+import { NewInvite } from "./newInvite";
 
 //Adding types for Invite to manage typeScript expectations
 interface Invite {
@@ -110,20 +111,27 @@ const refreshPage=(myPage: any)=>{
 
   return (
     <>
-      <div className="flex items-center w-full">
-        <div className="relative flex-grow">
-          <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-6 w-6" />
-          <Input
-            placeholder="Search"
-            value={searchQuery}
-            className="h-9 w-full pl-10 border rounded-md"
-            onChange={(event) => setSearchQuery(event.target.value)}
-          />
-        </div>
+      <div className="py-3 flex justify-between items-start pl-3 pr-3 flex-col md:flex-row">
+        <h2 className="text-2xl font-bold tracking-tight">
+          Campaigns
+        </h2>
+        <NewInvite IDGuild={guildId} refreshPage={refreshPage} guildId={guildId}/>
       </div>
-      <ScrollArea className="w-full mt-1 h-[500px]">
-        {filteredInvitesElements}
-      </ScrollArea>
+      <div className="flex items-center w-full">
+
+    <div className="relative flex-grow pl-2 pr-2">
+      <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-6 w-6" />
+      <Input
+        placeholder="Search"
+        value={searchQuery}
+        className="h-9 w-full pl-10 border rounded-md"
+        onChange={(event) => setSearchQuery(event.target.value)}
+      />
+    </div>
+  </div>
+  <ScrollArea className="w-full mt-1 h-[500px]">
+    {filteredInvitesElements}
+  </ScrollArea>
     </>
   );
 };

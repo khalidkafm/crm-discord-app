@@ -64,7 +64,7 @@ const InviteCard =
 
     return (
 
-      <div className="flex-row items-center justify-between w-full bg-white rounded-lg">
+      <div className="flex items-center justify-between w-full bg-white rounded-lg">
           <Button
             onClick={handleClick}
             onMouseEnter={handleMouseEnter}
@@ -73,8 +73,10 @@ const InviteCard =
             className="flex-row items-center justify-between bg-white p-5 mt-3 rounded-lg"
             type="button"
           >
-            {props.name}
-            {isHovered && <p >{props.description}</p>}
+            <div className="text-left">
+              {props.name}
+              {isHovered && <p className="text-xs text-slate-500">{props.description}</p>}
+            </div>
           </Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

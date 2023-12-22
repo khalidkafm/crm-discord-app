@@ -36,14 +36,14 @@ const memberId = discordId;
 
   return (
     <>
-        <div className="flex h-screen">
-        <div className="w-1/4 bg-gray-75 border-r-2 border-solid border-gray-500 overflow-hidden">
+      <div className="flex h-screen">
+        <div className="w-1/4 overflow-hidden">
             <SideBarMenu guildId={params.guildId} memberId={memberId} guildIcon={params.guildIcon} sessionData={{ data: { memberId}, status: 'authenticated' }}></SideBarMenu>
         </div>
         <div className="flex-1 p-4 overflow-y-auto ">
             {children}
         </div>
-    </div>
+      </div>
     </>
 
 

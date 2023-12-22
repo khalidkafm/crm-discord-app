@@ -2,6 +2,8 @@
 import { auth } from "@/auth/lucia";
 import * as context from "next/headers";
 import { redirect } from "next/navigation";
+import Image from "next/image";
+import { DiscordLogoIcon } from "@radix-ui/react-icons"
 
 import { Metadata } from "next"
 import Link from "next/link"
@@ -26,33 +28,36 @@ const Page = async () => {
 	if (!session) redirect("/login");
 	return (
 		<>
-		<div className="container relative h-[800px] flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-		  <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
-			<div className="absolute inset-0 bg-zinc-900" />
-			<div className="relative z-20 flex items-center text-lg font-medium">
-			  <svg
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 24 24"
-				fill="none"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-				className="mr-2 h-6 w-6"
-			  >
-				<path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
-			  </svg>
-			  Connect your bot
-			</div>
-			<div className="relative z-20 mt-auto">
-			  <blockquote className="space-y-2">
-				<p className="text-lg">
-				  &ldquo;Admin permissions are required.&rdquo;
-				</p>
-				<footer className="text-sm">Random text</footer>
-			  </blockquote>
-			</div>
-		  </div>
+		<div className="container relative h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+		  
+		  
+		<div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
+                    <div className="absolute inset-0 bg-zinc-900" />
+                    <div className="relative z-20 flex flex-row items-center justify-center text-lg font-medium h-full">
+                        <Image
+                            src="/LogoDiscordCRM.png"
+                            alt=""
+                            width={230}
+                            height={140}
+                            className="relative bottom-15 px-5 py-5"
+                        />
+                        <div className="flex content-center justify-center">
+                            <svg width="50" height="50" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.875 7.5C9.875 8.81168 8.81168 9.875 7.5 9.875C6.18832 9.875 5.125 8.81168 5.125 7.5C5.125 6.18832 6.18832 5.125 7.5 5.125C8.81168 5.125 9.875 6.18832 9.875 7.5Z" fill="currentColor"></path>
+                            </svg>
+                            <svg width="50" height="50" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.875 7.5C9.875 8.81168 8.81168 9.875 7.5 9.875C6.18832 9.875 5.125 8.81168 5.125 7.5C5.125 6.18832 6.18832 5.125 7.5 5.125C8.81168 5.125 9.875 6.18832 9.875 7.5Z" fill="currentColor"></path>
+                            </svg>
+                            <svg width="50" height="50" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.875 7.5C9.875 8.81168 8.81168 9.875 7.5 9.875C6.18832 9.875 5.125 8.81168 5.125 7.5C5.125 6.18832 6.18832 5.125 7.5 5.125C8.81168 5.125 9.875 6.18832 9.875 7.5Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                        <DiscordLogoIcon className="mr-2 h-60 w-60" />
+                    </div>
+                </div>
+
+
+		  
 		  <div className="lg:p-8">
 			<div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
 			  <div className="flex flex-col space-y-2 text-center">

@@ -50,15 +50,13 @@ export default function SideBarMenu({
 
   // console.log("sessionData in SideBarMenu:", sessionData);
   // console.log("Member ID from session data:", sessionData?.data?.memberId);
-  console.log('SIDEBAR : ', guildId, memberId)
-
-  
-    const IDGuild = guildId;
+  //console.log('SIDEBAR : ', guildId, memberId)
   
 
   return (
     <>
-      <div className="space-y-4 py-4 overflow-hidden">
+     <div className="pl-4 pt-3 pb-2">
+      <div className="py-4 overflow-hidden">
         <Image
           src="/LogoDiscordCRM.png"
           alt=""
@@ -66,26 +64,19 @@ export default function SideBarMenu({
           height={35}
           className="relative top-15 px-5 py-5"
         ></Image>
-        <div className="px-4 py-12">
-          <div className="py-3 flex justify-between items-center">
+        <div className="py-0 justify-between items-start">
+          <div className="py-0 flex justify-between items-center">
             <div className="flex-grow">
-              <h2 className="text-2xl font-bold tracking-tight">
-              Campaigns
-              </h2>
             </div>
-            {/* <Button variant="default" className="justify-end">
-              <PlusCircledIcon className="mr-2 h-4 w-4" />
-              <NewInvite/>
-              New
-            </Button> */}
-            <NewInvite IDGuild={IDGuild}/>
+            <div>
+            </div>
           </div>
           <div className="py-1">
             <div className="invite-list-container">
-              <InviteList guildId={guildId}></InviteList>
+              <InviteList guildId={guildId} ></InviteList>
             </div>
           </div>
-          <div className="py-5">
+          <div className="py-5 w-1/5 fixed bottom-0 ml-2">
           <GuildSelector
             guildId={guildId}
             memberId={memberId}
@@ -94,8 +85,10 @@ export default function SideBarMenu({
           ></GuildSelector>
           </div>
 
-        </div>
-      </div>
+
+    </div>
+  </div>
+</div>
     </>
   );
 }
