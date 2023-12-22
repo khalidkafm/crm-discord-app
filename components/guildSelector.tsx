@@ -152,7 +152,15 @@ export const GuildSelector: React.FC<AccountCardsProps> = ({
                       <DiscordLogoIcon></DiscordLogoIcon>
                     </AvatarFallback>
                   </Avatar>
-                  {activeGuildData?.guild_name}
+
+                    <div>
+                      {activeGuildData?.guild_name}
+                    </div>
+                    <div className="pl-3">
+                  <span className="relative flex h-3 w-3">
+                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                 <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                 </span></div>
                   <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
                 </>
               )}
@@ -218,7 +226,7 @@ export const GuildSelector: React.FC<AccountCardsProps> = ({
               <CommandSeparator />
               <CommandList>
                 <CommandGroup>
-                  <DialogTrigger asChild>
+                  <DialogTrigger  asChild>
                     <CommandItem
                       onSelect={() => {
                         setOpen(false);
@@ -231,7 +239,7 @@ export const GuildSelector: React.FC<AccountCardsProps> = ({
                   </DialogTrigger>
                   {selectedGuild && (
                     <div className="flex items-center justify-between">
-                      <p className="overflow-hidden p-1 text-foreground px-2 py-1.5 text-lg font-medium text-muted-foreground">
+                      <p className="overflow-hidden p-1 px-2 py-1.5 text-s text-muted-foreground">
                         {workspacesData[0]?.username}
                       </p>
                       <Form action="/api/logout">
